@@ -1,22 +1,17 @@
-# ใช้ MySQL ภาพจาก Docker Hub
+# ใช้ภาพ MySQL เป็นพื้นฐาน
 FROM mysql:latest
 
 # ตั้งค่าตัวแปรสภาพแวดล้อมสำหรับ MySQL
 ENV MYSQL_ROOT_PASSWORD=1234
-ENV MYSQL_DATABASE=mydatabase
-ENV MYSQL_USER=myuser
+ENV MYSQL_DATABASE=test
+ENV MYSQL_USER=user
 ENV MYSQL_PASSWORD=1234
 
-# ติดตั้ง phpMyAdmin
-RUN apt-get update && apt-get install -y \
-    phpmyadmin \
-    supervisor
-
-# คัดลอกไฟล์ config ของ supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# คัดลอกไฟล์ SQL สำหรับการ initial
+# คัดลอกไฟล์ SQL (ถ้ามี) ไปยัง Docker image (ถ้ามี)
 # COPY ./init.sql /docker-entrypoint-initdb.d/
 
-# รัน supervisor ที่จะจัดการ MySQL และ phpMyAdmin
-CMD ["/usr/bin/supervisord"]
+# เปิดพอร์ต 3306 สำหรับการเข้าถึงจากภายนอก
+EXPOSE 3306
+
+# เริ่มต้น MySQL
+CMD ["mysqld"]
