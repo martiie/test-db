@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # คัดลอกไฟล์ SQL สำหรับการ initial
-COPY ./init.sql /docker-entrypoint-initdb.d/
+# COPY ./init.sql /docker-entrypoint-initdb.d/
 
 # รัน supervisor ที่จะจัดการ MySQL และ phpMyAdmin
 CMD ["/usr/bin/supervisord"]
